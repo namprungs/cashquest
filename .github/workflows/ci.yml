@@ -11,38 +11,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Node ก่อน (อย่าใส่ cache: 'pnpm' ตรงนี้)
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      # เลือกอย่างใดอย่างหนึ่ง ระหว่าง ① กับ ②
-
-      # ① ติดตั้ง pnpm ด้วย action (อ่าน version จาก package.json)
+      # ติดตั้ง pnpm (อ่านเวอร์ชันจาก package.json -> "packageManager": "pnpm@10.18.3")
       - uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      # ② หรือ ใช้ Corepack (ถ้าใช้บล็อคนี้ ลบบล็อค ①)
-      # - run: corepack enable
-      # - run: corepack prepare pnpm@10.18.3 --activate
+      # แคช pnpm store (ออปชัน แต่แนะนำ)
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       # Flutter สำหรับ build web
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: '3.24.3'   # ปรับตามโปรเจกต์
+          flutter-version: '3.24.3'
           cache: true
 
       - run: flutter config --enable-web
       - run: flutter --version
 
-      # ติดตั้ง deps ของ workspace
+      # ติดตั้ง deps ทั้ง workspace
       - run: pnpm install
 
-      # ดึง pub ของแอพ Flutter (กันเหนียว)
+      # ดึง pub ให้แอพ Flutter (กันเหนียว)
       - working-directory: apps/web_flutter
         run: flutter pub get
 
-      # build ทั้ง monorepo (turbo จะไล่ @cashquest/api-nest, @cashquest/shared-types, @cashquest/web_flutter)
+      # build ทั้ง monorepo
       - run: pnpm build
