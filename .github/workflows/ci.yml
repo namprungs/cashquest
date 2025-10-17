@@ -7,24 +7,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      # Node + pnpm (ให้ pnpm อ่านเวอร์ชันจาก package.json)
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
 
+      # เลือกอย่างใดอย่างหนึ่ง ระหว่าง ① กับ ②
+
+      # ① ติดตั้ง pnpm ด้วย action (อ่าน version จาก package.json)
       - uses: pnpm/action-setup@v4
         with:
-          run_install: false   # ติดตั้งทีหลัง
+          run_install: false
 
-      # ติดตั้ง Flutter
+      # ② หรือ ใช้ Corepack (ถ้าใช้บล็อคนี้ ลบบล็อค ①)
+      # - run: corepack enable
+      # - run: corepack prepare pnpm@10.18.3 --activate
+
+      # Flutter สำหรับ build web
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: '3.9.4'   # ปรับตามโปรเจกต์
+          flutter-version: '3.24.3'   # ปรับตามโปรเจกต์
           cache: true
 
       - run: flutter config --enable-web
@@ -37,5 +44,5 @@ jobs:
       - working-directory: apps/web_flutter
         run: flutter pub get
 
-      # build ทั้ง monoreโป
+      # build ทั้ง monorepo (turbo จะไล่ @cashquest/api-nest, @cashquest/shared-types, @cashquest/web_flutter)
       - run: pnpm build
