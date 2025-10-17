@@ -1,12 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "rootDir": "../..",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src",
-    "../../packages/shared-types/src"
-  ]
+  "include": ["src"]
 }

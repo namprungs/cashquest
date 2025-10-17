@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@shared-types/*": ["packages/shared-types/src/*"],
+      "@cashquest/shared-types": ["packages/shared-types/src"]
     }
   }
 }

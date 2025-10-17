@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { HelloResponse } from '@shared-types/index';
+import { HelloResponse } from '@cashquest/shared-types';
 @Injectable()
 export class AppService {
   getHello(): HelloResponse {
