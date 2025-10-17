@@ -24,7 +24,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.3'   # ปรับตามที่โปรเจกต์ใช้
+          flutter-version: '3.9.4'   # ปรับตามที่โปรเจกต์ใช้
           cache: true
 
       # เปิดใช้งาน Flutter web (กันเหนียว)
