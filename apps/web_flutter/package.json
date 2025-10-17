@@ -1,0 +1,10 @@
+{
+  "name": "@cashquest/web_flutter",
+  "private": true,
+  "scripts": {
+    "dev": "flutter run -d emulator-5554",
+    "build": "flutter build web",
+    "lint": "dart analyze",
+    "test": "flutter test"
+  }
+}
