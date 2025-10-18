@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
+  constructor(private readonly appService: AppService) {}
   @Get()
   hello() {
-    return { ok: true, service: 'cashquest-api', time: new Date().toISOString() };
+    return this.appService.getHello();
   }
 }
